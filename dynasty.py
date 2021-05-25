@@ -55,7 +55,7 @@ def analyze_children(class_table):
 
 def print_class_hierarchy(class_table, baseclass="-", prefix=""):
     """Prints class hierarchy in tree structure."""
-    parentless_classes = class_table[class_table['baseclass'] == baseclass]
-    for i, row in parentless_classes.iterrows():
+    baseclass_parented_classes = class_table[class_table['baseclass'] == baseclass]
+    for i, row in baseclass_parented_classes.iterrows():
         print(prefix + row['module'] + "." + row['classname'])
         print_class_hierarchy(class_table, row['classname'], prefix.replace("_"," ") + "|_")

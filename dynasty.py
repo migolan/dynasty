@@ -31,7 +31,7 @@ def pkg_modules(pkg_path):
                        .replace(pkg_root+os.path.sep, "")
                        .replace(os.path.sep, ".")
                       for x in pyfilepaths]
-        modules.extend((newmodules))
+        modules.extend(newmodules)
     return modules
 
 
@@ -46,16 +46,21 @@ def pkg_classes(pkg_path):
 
 def analyze_children(class_table):
     """Finds child classes across package recursively."""
-    class_table['children'] = np.empty((len(class_table),0)).tolist()
+    class_table['children'] = np.empty((len(class_table), 0)).tolist()
     for i, row in class_table.iterrows():
         baseclassrows = class_table[class_table['classname'] == row['baseclass']]
         if len(baseclassrows) > 0:
             baseclassrows['children'].values[0].append(row['classname'])
 
 
-def print_class_hierarchy(class_table, baseclass="-", prefix=""):
+def print_class_hierarchy(class_table, baseclass="-", prefix="|_"):
     """Prints class hierarchy in tree structure."""
-    parentless_classes = class_table[class_table['baseclass'] == baseclass]
-    for i, row in parentless_classes.iterrows():
-        print(prefix + row['module'] + "." + row['classname'])
-        print_class_hierarchy(class_table, row['classname'], prefix.replace("_"," ") + "|_")
+    base_parented_classes = class_table[class_table['baseclass'] == baseclass].reset_index()
+    for i, classdata in base_parented_classes.iterrows():
+        print(prefix + classdata['module'] + "." + classdata['classname'])
+        next_prefix = prefix.replace("_", " ")
+        if i == len(base_parented_classes)-1:
+            k = next_prefix.rfind("|")
+            next_prefix = next_prefix[:k] + " " + next_prefix[k+1:]
+        next_prefix = next_prefix + "|_"
+        print_class_hierarchy(class_table, classdata['classname'], next_prefix)

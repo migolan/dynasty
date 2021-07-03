@@ -21,7 +21,7 @@ mypackage_dynasty.widget()
 mypackage_dynasty.print()
 ```
 <img src="https://github.com/migolan/dynasty/blob/main/widget_demo.gif" width="400">
-<img src="https://github.com/migolan/dynasty/blob/main/print_demo.png" width="400">
+<img src="https://github.com/migolan/dynasty/blob/main/print_demo.png" width="250">
 
 **Author**
 

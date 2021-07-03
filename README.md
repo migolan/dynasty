@@ -26,4 +26,4 @@ mypackage_dynasty.print()
 
 **Author**
 
-Michal Golan, [migolan@gmail.com](migolan@gmail.com), [migolan@github](https://github.com/migolan)
+Michal Golan <[migolan@gmail.com](mailto:migolan@gmail.com)> [migolan@github](https://github.com/migolan)

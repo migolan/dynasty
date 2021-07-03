@@ -22,8 +22,7 @@ mypackage_dynasty.widget()
 # print class hierarchy to screen
 mypackage_dynasty.print()
 ```
-
-![widget demo](widget_demo.gif)
+<img src="https://github.com/migolan/dynasty/blob/main/widget_demo.gif" width="400">
 
 **Author**
 

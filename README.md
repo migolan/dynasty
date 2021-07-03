@@ -23,6 +23,8 @@ mypackage_dynasty.widget()
 mypackage_dynasty.print()
 ```
 
+![widget demo](widget_demo.gif)
+
 **Author**
 
 Michal Golan, [migolan@gmail.com](migolan@gmail.com), [migolan@github](https://github.com/migolan)

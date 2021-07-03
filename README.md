@@ -2,8 +2,6 @@
 
 Dynasty extracts the class hierachy for your Python package, to track down lost or misplaced classes and help prevent [ravioli code](https://docs.python-guide.org/writing/structure).
 
-See the [example jupyter notebook](https://github.com/migolan/dynasty/blob/main/example.ipynb) for demonstration.
-
 **Installation**
 ```buildoutcfg
 pip install dynasty
@@ -23,6 +21,7 @@ mypackage_dynasty.widget()
 mypackage_dynasty.print()
 ```
 <img src="https://github.com/migolan/dynasty/blob/main/widget_demo.gif" width="400">
+<img src="https://github.com/migolan/dynasty/blob/main/print_demo.png" width="400">
 
 **Author**
 

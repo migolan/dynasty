@@ -35,12 +35,14 @@ def get_pkg_modules(pkg_path):
     return modules
 
 
-def get_pkg_classes(pkg_path):
+def get_pkg_classes(pkg):
     """Returns all classes in package recursively."""
     class_table = pd.DataFrame()
+    pkg_path = pkg.__path__[0]
     for module_name in get_pkg_modules(pkg_path):
         class_table = pd.concat([class_table, get_module_classes(module_name)])
     class_table.reset_index(drop=True, inplace=True)
+    class_table.name = pkg.__name__
     return class_table
 
 
@@ -55,6 +57,8 @@ def analyze_children(class_table):
 
 def print_class_hierarchy(class_table, baseclass="-", prefix="|_"):
     """Prints class hierarchy in tree structure."""
+    if baseclass == "-":
+        print(class_table.name)
     base_parented_classes = class_table[class_table['baseclass'] == baseclass].reset_index()
     for i, classdata in base_parented_classes.iterrows():
         print(prefix + classdata['module'] + "." + classdata['classname'])

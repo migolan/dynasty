@@ -2,6 +2,8 @@ import os
 import pyclbr
 import pandas as pd
 import numpy as np
+import anytree
+import ipytree
 
 
 def get_module_classes(module_name):
@@ -68,3 +70,39 @@ def print_class_hierarchy(class_table, baseclass="-", prefix="|_"):
             next_prefix = next_prefix[:k] + " " + next_prefix[k+1:]
         next_prefix = next_prefix + "|_"
         print_class_hierarchy(class_table, classdata['classname'], next_prefix)
+
+
+def get_anytree(class_table, baseclass="-"):
+    if baseclass == "-":
+        anytree_node = anytree.Node(class_table.name)
+    else:
+        anytree_node = anytree.Node(baseclass)
+    base_parented_classes = class_table[class_table['baseclass'] == baseclass].reset_index()
+    for i, classdata in base_parented_classes.iterrows():
+        child_anytree_node = get_anytree(class_table, classdata['classname'])
+        child_anytree_node.parent = anytree_node
+        child_anytree_node.classpath = classdata['module'] + "." + classdata['classname']
+    return anytree_node
+
+
+def print_anytree(anytree_topnode):
+    for pre, fill, node in anytree.RenderTree(anytree_topnode):
+        print("%s%s" % (pre, node.name))
+
+
+def get_ipytree(anytree_topnode):
+    tree = ipytree.Tree()
+    ipytree_topnode = get_ipytree_node(anytree_topnode)
+    ipytree_topnode.icon = "archive"
+    for node in ipytree_topnode.nodes:
+        node.icon = "angle-right"
+    tree.add_node(ipytree_topnode)
+    return tree
+
+
+def get_ipytree_node(anytree_node):
+    if hasattr(anytree_node, "_NodeMixin__children"):
+        child_ipytree_nodes = [get_ipytree_node(x) for x in anytree_node._NodeMixin__children]
+    else:
+        child_ipytree_nodes = []
+    return ipytree.Node(anytree_node.name, child_ipytree_nodes, icon="angle-up")

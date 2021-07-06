@@ -7,13 +7,12 @@ class Dynasty:
         self.name = pkg.__name__
         self.class_table = get_pkg_classes(pkg)
         self.anytree = get_anytree(self.class_table)
-        self.ipytree = get_ipytree(self.anytree)
 
-    def print(self):
-        print_anytree(self.anytree)
+    def print(self, classpath=False):
+        print_anytree(self.anytree, classpath=classpath)
 
     def _print(self):
         print_class_hierarchy(self.class_table)
 
-    def widget(self):
-        return self.ipytree
+    def widget(self, classpath=False):
+        return get_ipytree(self.anytree, classpath=classpath)

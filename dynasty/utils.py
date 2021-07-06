@@ -75,6 +75,7 @@ def print_class_hierarchy(class_table, baseclass="-", prefix="|_"):
 def get_anytree(class_table, baseclass="-"):
     if baseclass == "-":
         anytree_node = anytree.Node(class_table.name)
+        anytree_node.classpath = class_table.name
     else:
         anytree_node = anytree.Node(baseclass)
     base_parented_classes = class_table[class_table['baseclass'] == baseclass].reset_index()
@@ -85,14 +86,14 @@ def get_anytree(class_table, baseclass="-"):
     return anytree_node
 
 
-def print_anytree(anytree_topnode):
+def print_anytree(anytree_topnode, classpath=False):
     for pre, fill, node in anytree.RenderTree(anytree_topnode):
-        print("%s%s" % (pre, node.name))
+        print("%s%s" % (pre, node.classpath if classpath else node.name))
 
 
-def get_ipytree(anytree_topnode):
+def get_ipytree(anytree_topnode, classpath=False):
     tree = ipytree.Tree()
-    ipytree_topnode = get_ipytree_node(anytree_topnode)
+    ipytree_topnode = get_ipytree_node(anytree_topnode, classpath)
     ipytree_topnode.icon = "archive"
     for node in ipytree_topnode.nodes:
         node.icon = "angle-right"
@@ -100,9 +101,9 @@ def get_ipytree(anytree_topnode):
     return tree
 
 
-def get_ipytree_node(anytree_node):
+def get_ipytree_node(anytree_node, classpath=False):
     if hasattr(anytree_node, "_NodeMixin__children"):
-        child_ipytree_nodes = [get_ipytree_node(x) for x in anytree_node._NodeMixin__children]
+        child_ipytree_nodes = [get_ipytree_node(x, classpath=classpath) for x in anytree_node._NodeMixin__children]
     else:
         child_ipytree_nodes = []
-    return ipytree.Node(anytree_node.name, child_ipytree_nodes, icon="angle-up")
+    return ipytree.Node(anytree_node.classpath if classpath else anytree_node.name, child_ipytree_nodes, icon="angle-up")

@@ -10,5 +10,5 @@ setup(
     author="Michal Golan",
     author_email="migolan@gmail.com",
     url="https://github.com/migolan/dynasty",
-    version="0.0.2"
+    version="0.0.3"
 )
